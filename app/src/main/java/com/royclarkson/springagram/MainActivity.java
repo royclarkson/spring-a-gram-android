@@ -28,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -55,6 +56,8 @@ public class MainActivity extends Activity
 	 */
 	private CharSequence title;
 
+	private int menuPosition = 0;
+
 
 	//***************************************
 	// Activity methods
@@ -81,7 +84,17 @@ public class MainActivity extends Activity
 			// Only show items in the action bar relevant to this screen
 			// if the drawer is not showing. Otherwise, let the drawer
 			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.main, menu);
+			switch (this.menuPosition) {
+				case 0:
+					getMenuInflater().inflate(R.menu.main, menu);
+					break;
+				case 1:
+					getMenuInflater().inflate(R.menu.photos_list_main, menu);
+					break;
+				case 2:
+					getMenuInflater().inflate(R.menu.gallery_list_main, menu);
+					break;
+			}
 			restoreActionBar();
 			return true;
 		}
@@ -101,7 +114,11 @@ public class MainActivity extends Activity
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_add_photo) {
+			Toast.makeText(this, "Add Photo", Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (id == R.id.action_add_gallery) {
+			Toast.makeText(this, "Add Gallery", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -114,6 +131,7 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
+		this.menuPosition = position;
 		String url;
 		Fragment fragment = null;
 		switch (position) {
