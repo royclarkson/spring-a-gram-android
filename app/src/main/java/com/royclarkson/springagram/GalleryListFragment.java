@@ -146,13 +146,6 @@ public class GalleryListFragment extends ListFragment {
 	// Private methods
 	//***************************************
 
-	private void deleteGallery(int position) {
-		GalleryResource galleryResource = this.galleryListFragmentListener.getGalleryByPosition(position);
-		new DeleteGalleryTask().execute(galleryResource.getLink("self").getHref());
-		this.galleryListFragmentListener.deleteGalleryByPosition(position);
-		((GalleryListAdapter) getListAdapter()).notifyDataSetChanged();
-	}
-
 	private void refreshGalleries(Resources resources) {
 		List<GalleryResource> galleries = new ArrayList<GalleryResource>(resources.getContent());
 		if (null != this.galleryListFragmentListener) {
@@ -162,6 +155,13 @@ public class GalleryListFragment extends ListFragment {
 		setListAdapter(listAdapter);
 	}
 
+	private void deleteGallery(int position) {
+		GalleryResource galleryResource = this.galleryListFragmentListener.getGalleryByPosition(position);
+		new DeleteGalleryTask().execute(galleryResource.getLink("self").getHref());
+		this.galleryListFragmentListener.deleteGalleryByPosition(position);
+		((GalleryListAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+
 
 	// ***************************************
 	// Listener interface
@@ -169,9 +169,9 @@ public class GalleryListFragment extends ListFragment {
 
 	public interface GalleryListFragmentListener {
 
-		public void onGallerySelected(int position);
-
 		public void onDownloadGalleriesComplete(List<GalleryResource> galleries);
+
+		public void onGallerySelected(int position);
 
 		public GalleryResource getGalleryByPosition(int position);
 

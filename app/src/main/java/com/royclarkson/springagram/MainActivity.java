@@ -185,6 +185,11 @@ public class MainActivity extends Activity
 	//***************************************
 
 	@Override
+	public void onDownloadPhotosComplete(List<PhotoResource> photos) {
+		this.photos = photos;
+	}
+
+	@Override
 	public void onPhotoSelected(int position) {
 		PhotoDetailFragment photoDetailFragment = PhotoDetailFragment.newInstance(position);
 		FragmentManager fragmentManager = getFragmentManager();
@@ -192,11 +197,6 @@ public class MainActivity extends Activity
 				.add(R.id.container, photoDetailFragment)
 				.addToBackStack(null);
 		transaction.commit();
-	}
-
-	@Override
-	public void onDownloadPhotosComplete(List<PhotoResource> photos) {
-		this.photos = photos;
 	}
 
 	@Override
@@ -225,6 +225,11 @@ public class MainActivity extends Activity
 	//***************************************
 
 	@Override
+	public void onDownloadGalleriesComplete(List<GalleryResource> galleries) {
+		this.galleries = galleries;
+	}
+
+	@Override
 	public void onGallerySelected(int position) {
 		GalleryResource gallery = this.galleries.get(position);
 		String url = gallery.getLink("items").getHref();
@@ -234,11 +239,6 @@ public class MainActivity extends Activity
 				.add(R.id.container, galleryPhotoListFragment)
 				.addToBackStack(null);
 		transaction.commit();
-	}
-
-	@Override
-	public void onDownloadGalleriesComplete(List<GalleryResource> galleries) {
-		this.galleries = galleries;
 	}
 
 	@Override
@@ -256,6 +256,12 @@ public class MainActivity extends Activity
 	// GalleryPhotoListFragmentListener methods
 	//***************************************
 
+	@Override
+	public void onDownloadGalleryPhotosComplete(List<PhotoResource> photos) {
+		this.photos = photos;
+	}
+
+	@Override
 	public void onGalleryPhotoSelected(int position) {
 		PhotoDetailFragment photoDetailFragment = PhotoDetailFragment.newInstance(position);
 		FragmentManager fragmentManager = getFragmentManager();
@@ -263,10 +269,6 @@ public class MainActivity extends Activity
 				.add(R.id.container, photoDetailFragment)
 				.addToBackStack(null);
 		transaction.commit();
-	}
-
-	public void onDownloadGalleryPhotosComplete(List<PhotoResource> photos) {
-		this.photos = photos;
 	}
 
 

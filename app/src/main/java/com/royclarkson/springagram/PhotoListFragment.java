@@ -171,9 +171,9 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 	public interface PhotoListFragmentListener {
 
-		public void onPhotoSelected(int position);
-
 		public void onDownloadPhotosComplete(List<PhotoResource> photos);
+
+		public void onPhotoSelected(int position);
 
 		public PhotoResource getPhotoByPosition(int position);
 
@@ -185,13 +185,6 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	// Private methods
 	//***************************************
 
-	private void deletePhoto(int position) {
-		PhotoResource photoResource = this.photoListFragmentListener.getPhotoByPosition(position);
-		new DeletePhotoTask().execute(photoResource.getLink("self").getHref());
-		this.photoListFragmentListener.deletePhotoByPosition(position);
-		((PhotoListAdapter) listAdapter).notifyDataSetChanged();
-	}
-
 	private void refreshPhotos(Resources resources) {
 		List<PhotoResource> photos = new ArrayList<PhotoResource>(resources.getContent());
 		if (null != this.photoListFragmentListener) {
@@ -199,6 +192,13 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 		}
 		listAdapter = new PhotoListAdapter(getActivity(), photos);
 		listView.setAdapter(listAdapter);
+	}
+
+	private void deletePhoto(int position) {
+		PhotoResource photoResource = this.photoListFragmentListener.getPhotoByPosition(position);
+		new DeletePhotoTask().execute(photoResource.getLink("self").getHref());
+		this.photoListFragmentListener.deletePhotoByPosition(position);
+		((PhotoListAdapter) listAdapter).notifyDataSetChanged();
 	}
 
 
