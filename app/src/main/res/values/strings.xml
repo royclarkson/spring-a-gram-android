@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Spring-A-Gram</string>
+    <string name="app_name">Spring-a-Gram</string>
     <string name="title_section_home">Home</string>
     <string name="title_section_photos">Photos</string>
     <string name="title_section_galleries">Galleries</string>
