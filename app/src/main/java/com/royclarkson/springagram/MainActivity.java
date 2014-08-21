@@ -46,6 +46,10 @@ public class MainActivity extends Activity
 		GalleryListFragment.GalleryListFragmentListener,
 		GalleryPhotoListFragment.GalleryPhotoListFragmentListener {
 
+	private static final String REL_ITEMS = "items";
+
+	private static final String REL_GALLERIES = "galleries";
+
 	private NavigationDrawerFragment navigationDrawerFragment;
 
 	private ResourceSupport rootResource;
@@ -143,11 +147,11 @@ public class MainActivity extends Activity
 				fragment = HomeFragment.newInstance(url);
 				break;
 			case 1:
-				url = this.rootResource.getLink("items").getHref();
+				url = this.rootResource.getLink(REL_ITEMS).getHref();
 				fragment = PhotoListFragment.newInstance(url);
 				break;
 			case 2:
-				url = this.rootResource.getLink("galleries").getHref();
+				url = this.rootResource.getLink(REL_GALLERIES).getHref();
 				fragment = GalleryListFragment.newInstance(url);
 				break;
 		}
@@ -235,7 +239,7 @@ public class MainActivity extends Activity
 	@Override
 	public void onGallerySelected(int position) {
 		GalleryResource gallery = this.galleries.get(position);
-		String url = gallery.getLink("items").getHref();
+		String url = gallery.getLink(REL_ITEMS).getHref();
 		GalleryPhotoListFragment galleryPhotoListFragment = GalleryPhotoListFragment.newInstance(url);
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction()
