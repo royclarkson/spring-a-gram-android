@@ -47,8 +47,6 @@ public class MainActivity extends Activity
 		GalleryAddFragment.GalleryAddFragmentListener,
 		GalleryPhotoListFragment.GalleryPhotoListFragmentListener {
 
-	private static final String TAG_FRAGMENT_HOME = "fragment_home";
-
 	private static final String REL_ITEMS = "items";
 
 	private static final String REL_GALLERIES = "galleries";
@@ -172,7 +170,7 @@ public class MainActivity extends Activity
 			case 0:
 				url = getString(R.string.base_uri);
 				fragment = HomeFragment.newInstance(url);
-				tag = TAG_FRAGMENT_HOME;
+				tag = HomeFragment.TAG;
 				break;
 			case 1:
 				url = this.rootResource.getLink(REL_ITEMS).getHref();

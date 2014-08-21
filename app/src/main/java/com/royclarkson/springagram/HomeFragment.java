@@ -34,7 +34,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class HomeFragment extends Fragment {
 
-	private static final String TAG = HomeFragment.class.getSimpleName();
+	public static final String TAG = HomeFragment.class.getSimpleName();
 
 	private static final String ARG_API_URL = "api_url";
 
