@@ -7,7 +7,6 @@
     <string name="title_section_galleries">Galleries</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
     <string name="action_add_photo">Add Photo</string>
     <string name="action_refresh_photo_list">Refresh</string>
     <string name="action_add_gallery">Add Gallery</string>
