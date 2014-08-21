@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.royclarkson.springagram.model.PhotoResource;
+
 /**
  * @author Roy Clarkson
  */

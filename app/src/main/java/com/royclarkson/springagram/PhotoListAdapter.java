@@ -24,6 +24,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.royclarkson.springagram.model.PhotoResource;
+
 import java.util.List;
 
 

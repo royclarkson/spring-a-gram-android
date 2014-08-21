@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.royclarkson.springagram.model.GalleryResource;
+
 import java.util.List;
 
 

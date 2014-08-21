@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.royclarkson.springagram;
+package com.royclarkson.springagram.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -30,6 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.royclarkson.springagram.model.GalleryResource;
+import com.royclarkson.springagram.model.PhotoResource;
+
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;

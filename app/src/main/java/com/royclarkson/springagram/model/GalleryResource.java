@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package com.royclarkson.springagram;
+package com.royclarkson.springagram.model;
 
 import org.springframework.hateoas.ResourceSupport;
 
+/**
+ * @author Roy Clarkson
+ */
 public class GalleryResource extends ResourceSupport {
 
 	private String description;
@@ -28,11 +31,6 @@ public class GalleryResource extends ResourceSupport {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return this.description;
 	}
 
 }
