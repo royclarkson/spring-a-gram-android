@@ -44,7 +44,10 @@ public class MainActivity extends Activity
 		PhotoListFragment.PhotoListFragmentListener,
 		PhotoDetailFragment.PhotoDetailFragmentListener,
 		GalleryListFragment.GalleryListFragmentListener,
+		GalleryAddFragment.GalleryAddFragmentListener,
 		GalleryPhotoListFragment.GalleryPhotoListFragmentListener {
+
+	private static final String TAG_FRAGMENT_HOME = "fragment_home";
 
 	private static final String REL_ITEMS = "items";
 
@@ -125,10 +128,20 @@ public class MainActivity extends Activity
 			Toast.makeText(this, "Add Photo", Toast.LENGTH_SHORT).show();
 			return true;
 		} else if (id == R.id.action_add_gallery) {
-			Toast.makeText(this, "Add Gallery", Toast.LENGTH_SHORT).show();
+			showGalleryAddFragment();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showGalleryAddFragment() {
+		FragmentManager fragmentManager = getFragmentManager();
+		String url = this.rootResource.getLink(REL_GALLERIES).getHref();
+		GalleryAddFragment galleryAddFragment = GalleryAddFragment.newInstance(url);
+		FragmentTransaction transaction = fragmentManager.beginTransaction()
+				.add(R.id.container, galleryAddFragment)
+				.addToBackStack(null);
+		transaction.commit();
 	}
 
 
@@ -141,24 +154,28 @@ public class MainActivity extends Activity
 		this.menuPosition = position;
 		String url;
 		Fragment fragment = null;
+		String tag = null;
 		switch (position) {
 			case 0:
 				url = getString(R.string.base_uri);
 				fragment = HomeFragment.newInstance(url);
+				tag = TAG_FRAGMENT_HOME;
 				break;
 			case 1:
 				url = this.rootResource.getLink(REL_ITEMS).getHref();
 				fragment = PhotoListFragment.newInstance(url);
+				tag = PhotoListFragment.TAG;
 				break;
 			case 2:
 				url = this.rootResource.getLink(REL_GALLERIES).getHref();
 				fragment = GalleryListFragment.newInstance(url);
+				tag = GalleryListFragment.TAG;
 				break;
 		}
 		// update the main content by replacing fragments
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
-				.replace(R.id.container, fragment)
+				.replace(R.id.container, fragment, tag)
 				.commit();
 	}
 
@@ -256,6 +273,19 @@ public class MainActivity extends Activity
 	@Override
 	public void deleteGalleryByPosition(int position) {
 		this.galleries.remove(position);
+	}
+
+
+	//***************************************
+	// GalleryAddFragmentListener methods
+	//***************************************
+
+	public void onGalleryAddComplete() {
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.popBackStack();
+		GalleryListFragment galleryListFragment =
+				(GalleryListFragment) fragmentManager.findFragmentByTag(GalleryListFragment.TAG);
+		galleryListFragment.fetchGalleryList();
 	}
 
 

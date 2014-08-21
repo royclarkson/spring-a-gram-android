@@ -50,7 +50,7 @@ import java.util.List;
  */
 public class PhotoListFragment extends Fragment implements AbsListView.OnItemClickListener {
 
-	private static final String TAG = PhotoListFragment.class.getSimpleName();
+	public static final String TAG = PhotoListFragment.class.getSimpleName();
 
 	private static final String ARG_PHOTO_LIST_URL = "photos_url";
 

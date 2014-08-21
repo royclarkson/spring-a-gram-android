@@ -11,5 +11,7 @@
     <string name="action_add_photo">Add Photo</string>
     <string name="action_add_gallery">Add Gallery</string>
     <string name="action_delete">Delete</string>
-
+    <string name="title_add_gallery">Add New Gallery</string>
+    <string name="title_description">Description:</string>
+    <string name="button_save">Save</string>
 </resources>

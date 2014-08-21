@@ -41,13 +41,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  {@link ListFragment} that displays a list of {@link GalleryResource}s
+ * {@link ListFragment} that displays a list of {@link GalleryResource}s
  *
  * @author Roy Clarkson
  */
 public class GalleryListFragment extends ListFragment {
 
-	private static final String TAG = GalleryListFragment.class.getSimpleName();
+	public static final String TAG = GalleryListFragment.class.getSimpleName();
 
 	private static final String ARG_GALLERIES_LIST_URL = "galleries_url";
 
@@ -79,7 +79,7 @@ public class GalleryListFragment extends ListFragment {
 		if (getArguments() != null) {
 			this.galleriesUrl = getArguments().getString(ARG_GALLERIES_LIST_URL);
 		}
-		new DownloadGalleriesTask().execute(this.galleriesUrl);
+		fetchGalleryList();
 	}
 
 	@Override
@@ -148,7 +148,11 @@ public class GalleryListFragment extends ListFragment {
 	// Private methods
 	//***************************************
 
-	private void refreshGalleries(Resources resources) {
+	public void fetchGalleryList() {
+		new DownloadGalleriesTask().execute(this.galleriesUrl);
+	}
+
+	private void refreshGalleryList(Resources resources) {
 		List<GalleryResource> galleries = new ArrayList<GalleryResource>(resources.getContent());
 		if (null != this.galleryListFragmentListener) {
 			this.galleryListFragmentListener.onDownloadGalleriesComplete(galleries);
@@ -206,7 +210,7 @@ public class GalleryListFragment extends ListFragment {
 
 		@Override
 		protected void onPostExecute(Resources resources) {
-			refreshGalleries(resources);
+			refreshGalleryList(resources);
 		}
 
 	}
