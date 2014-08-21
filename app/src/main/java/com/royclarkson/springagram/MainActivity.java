@@ -95,14 +95,15 @@ public class MainActivity extends Activity
 			// if the drawer is not showing. Otherwise, let the drawer
 			// decide what to show in the action bar.
 			switch (this.menuPosition) {
-				case 0:
-					getMenuInflater().inflate(R.menu.main, menu);
-					break;
 				case 1:
 					getMenuInflater().inflate(R.menu.photos_list_main, menu);
 					break;
 				case 2:
 					getMenuInflater().inflate(R.menu.gallery_list_main, menu);
+					break;
+				case 0:
+				default:
+					getMenuInflater().inflate(R.menu.main, menu);
 					break;
 			}
 			restoreActionBar();
