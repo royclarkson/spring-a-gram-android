@@ -21,20 +21,10 @@ import org.springframework.hateoas.ResourceSupport;
 /**
  * @author Roy Clarkson
  */
-public class GalleryResource extends ResourceSupport {
-
-	public static final String REL_SELF = "self";
+public class ApiResource extends ResourceSupport {
 
 	public static final String REL_ITEMS = "items";
 
-	private String description;
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public static final String REL_GALLERIES = "galleries";
 
 }

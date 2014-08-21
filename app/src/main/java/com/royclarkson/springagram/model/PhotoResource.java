@@ -28,6 +28,10 @@ import org.springframework.hateoas.ResourceSupport;
  */
 public class PhotoResource extends ResourceSupport {
 
+	public static final String REL_SELF = "self";
+
+	public static final String REL_GALLERY = "gallery";
+
 	private static final int THUMBNAIL_HEIGHT = 100;
 
 	private static final int THUMBNAIL_WIDTH = 100;

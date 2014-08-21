@@ -30,14 +30,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.royclarkson.springagram.model.ApiResource;
 import com.royclarkson.springagram.model.GalleryResource;
 import com.royclarkson.springagram.model.PhotoResource;
-
-import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;
 
 
+/**
+ * @author Roy Clarkson
+ */
 public class MainActivity extends Activity
 		implements NavigationDrawerFragment.NavigationDrawerCallbacks,
 		HomeFragment.HomeFragmentListener,
@@ -47,13 +49,9 @@ public class MainActivity extends Activity
 		GalleryAddFragment.GalleryAddFragmentListener,
 		GalleryPhotoListFragment.GalleryPhotoListFragmentListener {
 
-	private static final String REL_ITEMS = "items";
-
-	private static final String REL_GALLERIES = "galleries";
-
 	private NavigationDrawerFragment navigationDrawerFragment;
 
-	private ResourceSupport rootResource;
+	private ApiResource apiResource;
 
 	private List<PhotoResource> photos;
 
@@ -147,7 +145,7 @@ public class MainActivity extends Activity
 
 	private void showGalleryAddFragment() {
 		FragmentManager fragmentManager = getFragmentManager();
-		String url = this.rootResource.getLink(REL_GALLERIES).getHref();
+		String url = this.apiResource.getLink(ApiResource.REL_GALLERIES).getHref();
 		GalleryAddFragment galleryAddFragment = GalleryAddFragment.newInstance(url);
 		FragmentTransaction transaction = fragmentManager.beginTransaction()
 				.add(R.id.container, galleryAddFragment)
@@ -173,12 +171,12 @@ public class MainActivity extends Activity
 				tag = HomeFragment.TAG;
 				break;
 			case 1:
-				url = this.rootResource.getLink(REL_ITEMS).getHref();
+				url = this.apiResource.getLink(ApiResource.REL_ITEMS).getHref();
 				fragment = PhotoListFragment.newInstance(url);
 				tag = PhotoListFragment.TAG;
 				break;
 			case 2:
-				url = this.rootResource.getLink(REL_GALLERIES).getHref();
+				url = this.apiResource.getLink(ApiResource.REL_GALLERIES).getHref();
 				fragment = GalleryListFragment.newInstance(url);
 				tag = GalleryListFragment.TAG;
 				break;
@@ -210,8 +208,8 @@ public class MainActivity extends Activity
 	//***************************************
 
 	@Override
-	public void onResourceDownloadComplete(ResourceSupport rootResource) {
-		this.rootResource = rootResource;
+	public void onResourceDownloadComplete(ApiResource apiResource) {
+		this.apiResource = apiResource;
 	}
 
 
@@ -267,7 +265,7 @@ public class MainActivity extends Activity
 	@Override
 	public void onGallerySelected(int position) {
 		GalleryResource gallery = this.galleries.get(position);
-		String url = gallery.getLink(REL_ITEMS).getHref();
+		String url = gallery.getLink(GalleryResource.REL_ITEMS).getHref();
 		GalleryPhotoListFragment galleryPhotoListFragment = GalleryPhotoListFragment.newInstance(url);
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction()

@@ -26,12 +26,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.springframework.hateoas.ResourceSupport;
+import com.royclarkson.springagram.model.ApiResource;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-
+/**
+ * @author Roy Clarkson
+ */
 public class HomeFragment extends Fragment {
 
 	public static final String TAG = HomeFragment.class.getSimpleName();
@@ -106,7 +109,7 @@ public class HomeFragment extends Fragment {
 
 	public interface HomeFragmentListener {
 
-		public void onResourceDownloadComplete(ResourceSupport resource);
+		public void onResourceDownloadComplete(ApiResource resource);
 
 	}
 
@@ -115,15 +118,15 @@ public class HomeFragment extends Fragment {
 	// Private classes
 	// ***************************************
 
-	private class DownloadRootResourceTask extends AsyncTask<String, Void, ResourceSupport> {
+	private class DownloadRootResourceTask extends AsyncTask<String, Void, ApiResource> {
 
 		@Override
-		protected ResourceSupport doInBackground(String... params) {
+		protected ApiResource doInBackground(String... params) {
 			try {
 				final String url = params[0];
 				RestTemplate restTemplate = RestUtils.getInstance();
-				ResponseEntity<ResourceSupport> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
-						RestUtils.getRequestEntity(), ResourceSupport.class);
+				ResponseEntity<ApiResource> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+						RestUtils.getRequestEntity(), ApiResource.class);
 				return responseEntity.getBody();
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage(), e);
@@ -133,9 +136,9 @@ public class HomeFragment extends Fragment {
 		}
 
 		@Override
-		protected void onPostExecute(ResourceSupport rootResource) {
+		protected void onPostExecute(ApiResource apiResource) {
 			if (homeFragmentListener != null) {
-				homeFragmentListener.onResourceDownloadComplete(rootResource);
+				homeFragmentListener.onResourceDownloadComplete(apiResource);
 			}
 		}
 
