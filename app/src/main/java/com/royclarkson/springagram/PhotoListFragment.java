@@ -86,7 +86,7 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 		if (getArguments() != null) {
 			this.photosUrl = getArguments().getString(ARG_PHOTO_LIST_URL);
 		}
-		new DownloadPhotosTask().execute(this.photosUrl);
+		fetchPhotoList();
 	}
 
 	@Override
@@ -187,7 +187,11 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	// Private methods
 	//***************************************
 
-	private void refreshPhotos(Resources resources) {
+	public void fetchPhotoList() {
+		new DownloadPhotosTask().execute(this.photosUrl);
+	}
+
+	private void refreshPhotoList(Resources resources) {
 		List<PhotoResource> photos = new ArrayList<PhotoResource>(resources.getContent());
 		if (null != this.photoListFragmentListener) {
 			this.photoListFragmentListener.onDownloadPhotosComplete(photos);
@@ -228,7 +232,7 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 		@Override
 		protected void onPostExecute(Resources resources) {
-			refreshPhotos(resources);
+			refreshPhotoList(resources);
 		}
 
 	}

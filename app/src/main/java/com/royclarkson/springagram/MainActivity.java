@@ -128,8 +128,20 @@ public class MainActivity extends Activity
 		if (id == R.id.action_add_photo) {
 			Toast.makeText(this, "Add Photo", Toast.LENGTH_SHORT).show();
 			return true;
+		} else if (id == R.id.action_refresh_photo_list) {
+			FragmentManager fragmentManager = getFragmentManager();
+			PhotoListFragment galleryListFragment =
+					(PhotoListFragment) fragmentManager.findFragmentByTag(PhotoListFragment.TAG);
+			galleryListFragment.fetchPhotoList();
+			return true;
 		} else if (id == R.id.action_add_gallery) {
 			showGalleryAddFragment();
+			return true;
+		} else if (id == R.id.action_refresh_gallery_list) {
+			FragmentManager fragmentManager = getFragmentManager();
+			GalleryListFragment galleryListFragment =
+					(GalleryListFragment) fragmentManager.findFragmentByTag(GalleryListFragment.TAG);
+			galleryListFragment.fetchGalleryList();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
