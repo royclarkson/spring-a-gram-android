@@ -31,8 +31,4 @@ public class Gallery {
 		return this.description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 }
