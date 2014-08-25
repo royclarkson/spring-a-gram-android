@@ -28,7 +28,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.royclarkson.springagram.model.ApiResource;
 import com.royclarkson.springagram.model.GalleryResource;
@@ -45,6 +44,7 @@ public class MainActivity extends Activity
 		HomeFragment.HomeFragmentListener,
 		PhotoListFragment.PhotoListFragmentListener,
 		PhotoDetailFragment.PhotoDetailFragmentListener,
+		PhotoAddFragment.PhotoAddFragmentListener,
 		GalleryListFragment.GalleryListFragmentListener,
 		GalleryAddFragment.GalleryAddFragmentListener,
 		GalleryPhotoListFragment.GalleryPhotoListFragmentListener {
@@ -122,7 +122,7 @@ public class MainActivity extends Activity
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_add_photo) {
-			Toast.makeText(this, "Add Photo", Toast.LENGTH_SHORT).show();
+			showPhotoAddFragment();
 			return true;
 		} else if (id == R.id.action_refresh_photo_list) {
 			FragmentManager fragmentManager = getFragmentManager();
@@ -141,6 +141,16 @@ public class MainActivity extends Activity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showPhotoAddFragment() {
+		FragmentManager fragmentManager = getFragmentManager();
+		String url = this.apiResource.getLink(ApiResource.REL_ITEMS).getHref();
+		PhotoAddFragment photoAddFragment = PhotoAddFragment.newInstance(url);
+		FragmentTransaction transaction = fragmentManager.beginTransaction()
+				.add(R.id.container, photoAddFragment)
+				.addToBackStack(null);
+		transaction.commit();
 	}
 
 	private void showGalleryAddFragment() {
@@ -251,6 +261,19 @@ public class MainActivity extends Activity
 //	public PhotoResource getPhotoByPosition(int position) {
 //		return this.photos.get(position);
 //	}
+
+
+	//***************************************
+	// PhotoDetailFragmentListener methods
+	//***************************************
+
+	public void onPhotoAddComplete() {
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.popBackStack();
+		PhotoListFragment photoListFragment =
+				(PhotoListFragment) fragmentManager.findFragmentByTag(PhotoListFragment.TAG);
+		photoListFragment.fetchPhotoList();
+	}
 
 
 	//***************************************
