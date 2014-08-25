@@ -33,6 +33,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="[Photo Name]"
         android:id="@+id/photo_list_item_name"
-        android:layout_marginLeft="4dp"/>
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"/>
 
 </LinearLayout>

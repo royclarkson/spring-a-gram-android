@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.royclarkson.springagram.model.GalleryResource;
 import com.royclarkson.springagram.model.PhotoResource;
 
 import org.springframework.core.ParameterizedTypeReference;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link Fragment} that displays a list of {@link PhotoResource}s
+ * {@link Fragment} that displays a list of {@link PhotoResource}s assigned to the {@link GalleryResource}
  *
  * @author Roy Clarkson
  */
@@ -80,12 +81,10 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		if (getArguments() != null) {
 			this.galleryPhotosUrl = getArguments().getString(ARG_GALLERY_PHOTOS_URI);
 		}
-
-		new DownloadGalleryPhotosTask().execute(this.galleryPhotosUrl);
+		fetchGalleryPhotoList();
 	}
 
 	@Override
@@ -153,7 +152,11 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 	}
 
 
-	private void refreshPhotos(Resources resources) {
+	public void fetchGalleryPhotoList() {
+		new DownloadGalleryPhotosTask().execute(this.galleryPhotosUrl);
+	}
+
+	private void refreshPhotoList(Resources resources) {
 		List<PhotoResource> photos = new ArrayList<PhotoResource>(resources.getContent());
 		if (null != this.galleryPhotoListFragmentListener) {
 			this.galleryPhotoListFragmentListener.onDownloadGalleryPhotosComplete(photos);
@@ -162,6 +165,10 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 		listView.setAdapter(listAdapter);
 	}
 
+
+	//***************************************
+	// Private classes
+	//***************************************
 
 	private class DownloadGalleryPhotosTask extends AsyncTask<String, Void, Resources> {
 
@@ -184,7 +191,7 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 
 		@Override
 		protected void onPostExecute(Resources resources) {
-			refreshPhotos(resources);
+			refreshPhotoList(resources);
 		}
 
 	}
