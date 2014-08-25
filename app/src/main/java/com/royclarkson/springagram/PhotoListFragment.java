@@ -32,7 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.royclarkson.springagram.model.PhotoResource;
+import com.royclarkson.springagram.model.ItemResource;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Resources;
@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link Fragment} that displays a list of {@link PhotoResource}s
+ * {@link Fragment} that displays a list of {@link ItemResource}s
  *
  * @author Roy Clarkson
  */
@@ -173,11 +173,11 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 	public interface PhotoListFragmentListener {
 
-		public void onDownloadPhotosComplete(List<PhotoResource> photos);
+		public void onDownloadPhotosComplete(List<ItemResource> photos);
 
 		public void onPhotoSelected(int position);
 
-		public PhotoResource getPhotoByPosition(int position);
+		public ItemResource getPhotoByPosition(int position);
 
 		public void deletePhotoByPosition(int position);
 
@@ -192,7 +192,7 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	}
 
 	private void refreshPhotoList(Resources resources) {
-		List<PhotoResource> photos = new ArrayList<PhotoResource>(resources.getContent());
+		List<ItemResource> photos = new ArrayList<ItemResource>(resources.getContent());
 		if (null != this.photoListFragmentListener) {
 			this.photoListFragmentListener.onDownloadPhotosComplete(photos);
 		}
@@ -201,8 +201,8 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	}
 
 	private void deletePhoto(int position) {
-		PhotoResource photoResource = this.photoListFragmentListener.getPhotoByPosition(position);
-		new DeletePhotoTask().execute(photoResource.getLink("self").getHref());
+		ItemResource itemResource = this.photoListFragmentListener.getPhotoByPosition(position);
+		new DeletePhotoTask().execute(itemResource.getLink(ItemResource.REL_SELF).getHref());
 		this.photoListFragmentListener.deletePhotoByPosition(position);
 		((PhotoListAdapter) listAdapter).notifyDataSetChanged();
 	}
@@ -219,9 +219,9 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 			try {
 				final String url = params[0];
 				RestTemplate restTemplate = RestUtils.getInstance();
-				ResponseEntity<Resources<PhotoResource>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+				ResponseEntity<Resources<ItemResource>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
 						RestUtils.getRequestEntity(),
-						new ParameterizedTypeReference<Resources<PhotoResource>>() {
+						new ParameterizedTypeReference<Resources<ItemResource>>() {
 						});
 				return responseEntity.getBody();
 			} catch (Exception e) {

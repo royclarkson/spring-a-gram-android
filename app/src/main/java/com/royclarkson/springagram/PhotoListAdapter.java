@@ -24,7 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.royclarkson.springagram.model.PhotoResource;
+import com.royclarkson.springagram.model.ItemResource;
 
 import java.util.List;
 
@@ -34,11 +34,11 @@ import java.util.List;
  */
 public class PhotoListAdapter extends BaseAdapter {
 
-	private final List<PhotoResource> photos;
+	private final List<ItemResource> photos;
 
 	private final LayoutInflater layoutInflater;
 
-	public PhotoListAdapter(Context context, List<PhotoResource> photos) {
+	public PhotoListAdapter(Context context, List<ItemResource> photos) {
 		this.layoutInflater = LayoutInflater.from(context);
 		this.photos = photos;
 	}
@@ -49,7 +49,7 @@ public class PhotoListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public PhotoResource getItem(int position) {
+	public ItemResource getItem(int position) {
 		return this.photos.get(position);
 	}
 
@@ -59,7 +59,7 @@ public class PhotoListAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		PhotoResource photo = getItem(position);
+		ItemResource photo = getItem(position);
 		View view = convertView;
 
 		if (view == null) {

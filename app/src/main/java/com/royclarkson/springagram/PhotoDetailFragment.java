@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.royclarkson.springagram.model.PhotoResource;
+import com.royclarkson.springagram.model.ItemResource;
 
 /**
  * @author Roy Clarkson
@@ -68,7 +68,7 @@ public class PhotoDetailFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_photo_detail, container, false);
 		ImageView imageView = (ImageView) view.findViewById(R.id.photo_detail_image);
-		PhotoResource photo = this.photoDetailFragmentListener.getPhotoByPosition(this.photoPosition);
+		ItemResource photo = this.photoDetailFragmentListener.getPhotoByPosition(this.photoPosition);
 		imageView.setImageBitmap(photo.getImage());
 		return view;
 	}
@@ -109,7 +109,7 @@ public class PhotoDetailFragment extends Fragment {
 
 	public interface PhotoDetailFragmentListener {
 
-		public PhotoResource getPhotoByPosition(int position);
+		public ItemResource getPhotoByPosition(int position);
 
 	}
 

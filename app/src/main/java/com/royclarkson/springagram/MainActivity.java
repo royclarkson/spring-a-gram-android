@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import com.royclarkson.springagram.model.ApiResource;
 import com.royclarkson.springagram.model.GalleryResource;
-import com.royclarkson.springagram.model.PhotoResource;
+import com.royclarkson.springagram.model.ItemResource;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class MainActivity extends Activity
 
 	private ApiResource apiResource;
 
-	private List<PhotoResource> photos;
+	private List<ItemResource> photos;
 
 	private List<GalleryResource> galleries;
 
@@ -218,7 +218,7 @@ public class MainActivity extends Activity
 	//***************************************
 
 	@Override
-	public void onDownloadPhotosComplete(List<PhotoResource> photos) {
+	public void onDownloadPhotosComplete(List<ItemResource> photos) {
 		this.photos = photos;
 	}
 
@@ -233,7 +233,7 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public PhotoResource getPhotoByPosition(int position) {
+	public ItemResource getPhotoByPosition(int position) {
 		return this.photos.get(position);
 	}
 
@@ -303,7 +303,7 @@ public class MainActivity extends Activity
 	//***************************************
 
 	@Override
-	public void onDownloadGalleryPhotosComplete(List<PhotoResource> photos) {
+	public void onDownloadGalleryPhotosComplete(List<ItemResource> photos) {
 		this.photos = photos;
 	}
 

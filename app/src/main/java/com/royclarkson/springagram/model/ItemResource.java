@@ -26,7 +26,7 @@ import org.springframework.hateoas.ResourceSupport;
 /**
  * @author Roy Clarkson
  */
-public class PhotoResource extends ResourceSupport {
+public class ItemResource extends ResourceSupport {
 
 	public static final String REL_SELF = "self";
 

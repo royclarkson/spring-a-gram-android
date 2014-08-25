@@ -30,7 +30,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.royclarkson.springagram.model.GalleryResource;
-import com.royclarkson.springagram.model.PhotoResource;
+import com.royclarkson.springagram.model.ItemResource;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Resources;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link Fragment} that displays a list of {@link PhotoResource}s assigned to the {@link GalleryResource}
+ * {@link Fragment} that displays a list of {@link ItemResource}s assigned to the {@link GalleryResource}
  *
  * @author Roy Clarkson
  */
@@ -147,7 +147,7 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 
 		public void onGalleryPhotoSelected(int position);
 
-		public void onDownloadGalleryPhotosComplete(List<PhotoResource> photos);
+		public void onDownloadGalleryPhotosComplete(List<ItemResource> photos);
 
 	}
 
@@ -157,7 +157,7 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 	}
 
 	private void refreshPhotoList(Resources resources) {
-		List<PhotoResource> photos = new ArrayList<PhotoResource>(resources.getContent());
+		List<ItemResource> photos = new ArrayList<ItemResource>(resources.getContent());
 		if (null != this.galleryPhotoListFragmentListener) {
 			this.galleryPhotoListFragmentListener.onDownloadGalleryPhotosComplete(photos);
 		}
@@ -177,9 +177,9 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 			try {
 				final String url = params[0];
 				RestTemplate restTemplate = RestUtils.getInstance();
-				ResponseEntity<Resources<PhotoResource>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
+				ResponseEntity<Resources<ItemResource>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
 						RestUtils.getRequestEntity(),
-						new ParameterizedTypeReference<Resources<PhotoResource>>() {
+						new ParameterizedTypeReference<Resources<ItemResource>>() {
 						});
 				return responseEntity.getBody();
 			} catch (Exception e) {
