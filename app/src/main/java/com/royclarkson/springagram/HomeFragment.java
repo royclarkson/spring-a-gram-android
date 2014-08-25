@@ -18,7 +18,6 @@ package com.royclarkson.springagram;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,13 +75,6 @@ public class HomeFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_home, container, false);
-	}
-
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onButtonPressed(Uri uri) {
-		if (homeFragmentListener != null) {
-//			homeFragmentListener.onFragmentInteraction(uri);
-		}
 	}
 
 	@Override
