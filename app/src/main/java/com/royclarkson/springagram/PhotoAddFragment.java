@@ -178,9 +178,10 @@ public class PhotoAddFragment extends Fragment {
 
 		private Item item;
 
+		File photoFile = new File(photoPath);
+
 		@Override
 		protected void onPreExecute() {
-			File photoFile = new File(photoPath);
 			if (photoFile.exists()) {
 				String name = photoFile.getName();
 				String imageDataString = null;
@@ -208,6 +209,7 @@ public class PhotoAddFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(Boolean success) {
+			photoFile.delete();
 			if (photoAddFragmentListener != null) {
 				photoAddFragmentListener.onPhotoAddComplete();
 			}
