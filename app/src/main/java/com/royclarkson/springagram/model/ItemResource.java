@@ -36,6 +36,10 @@ public class ItemResource extends ResourceSupport {
 
 	private static final int THUMBNAIL_WIDTH = 100;
 
+	private static final int IMAGE_HEIGHT = 400;
+
+	private static final int IMAGE_WIDTH = 400;
+
 	private String name;
 
 	private Bitmap image;
@@ -53,8 +57,9 @@ public class ItemResource extends ResourceSupport {
 	public void setImage(String imageDataUri) {
 		String imageDataString = imageDataUri.substring(imageDataUri.indexOf(",")+1);
 		byte[] imageData = Base64.decode(imageDataString, Base64.DEFAULT);
-		this.image = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-		this.thumbnail = ThumbnailUtils.extractThumbnail(this.image, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+		Bitmap original = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+		this.image = ThumbnailUtils.extractThumbnail(original, IMAGE_WIDTH, IMAGE_HEIGHT);
+		this.thumbnail = ThumbnailUtils.extractThumbnail(original, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
 	}
 
 	public Bitmap getImage() {
