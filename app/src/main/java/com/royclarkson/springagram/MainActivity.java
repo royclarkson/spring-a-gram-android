@@ -248,7 +248,7 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public void deletePhotoByPosition(int position) {
+	public void onDeletePhotoByPosition(int position) {
 		this.photos.remove(position);
 	}
 
@@ -303,7 +303,7 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public void deleteGalleryByPosition(int position) {
+	public void onDeleteGalleryByPosition(int position) {
 		this.galleries.remove(position);
 	}
 

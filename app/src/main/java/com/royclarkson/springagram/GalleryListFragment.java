@@ -164,7 +164,7 @@ public class GalleryListFragment extends ListFragment {
 	private void deleteGallery(int position) {
 		GalleryResource galleryResource = this.galleryListFragmentListener.getGalleryByPosition(position);
 		new DeleteGalleryTask().execute(galleryResource.getLink("self").getHref());
-		this.galleryListFragmentListener.deleteGalleryByPosition(position);
+		this.galleryListFragmentListener.onDeleteGalleryByPosition(position);
 		((GalleryListAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 
@@ -181,7 +181,7 @@ public class GalleryListFragment extends ListFragment {
 
 		public GalleryResource getGalleryByPosition(int position);
 
-		public void deleteGalleryByPosition(int position);
+		public void onDeleteGalleryByPosition(int position);
 
 	}
 

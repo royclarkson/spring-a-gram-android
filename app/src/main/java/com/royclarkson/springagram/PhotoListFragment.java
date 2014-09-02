@@ -179,7 +179,7 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 		public ItemResource getPhotoByPosition(int position);
 
-		public void deletePhotoByPosition(int position);
+		public void onDeletePhotoByPosition(int position);
 
 	}
 
@@ -203,7 +203,7 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	private void deletePhoto(int position) {
 		ItemResource itemResource = this.photoListFragmentListener.getPhotoByPosition(position);
 		new DeletePhotoTask().execute(itemResource.getLink(ItemResource.REL_SELF).getHref());
-		this.photoListFragmentListener.deletePhotoByPosition(position);
+		this.photoListFragmentListener.onDeletePhotoByPosition(position);
 		((PhotoListAdapter) listAdapter).notifyDataSetChanged();
 	}
 
