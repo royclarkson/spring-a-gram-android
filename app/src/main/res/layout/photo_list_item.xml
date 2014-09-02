@@ -19,8 +19,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:padding="4dp">
+              android:padding="8dp">
 
     <ImageView
         android:id="@+id/photo_list_item_thumbnail"
@@ -28,12 +29,12 @@
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:id="@+id/photo_list_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:text="[Photo Name]"
-        android:id="@+id/photo_list_item_name"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 </LinearLayout>
