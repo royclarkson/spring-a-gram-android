@@ -15,20 +15,22 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:divider="?android:dividerHorizontal"
-              android:orientation="vertical"
-              android:showDividers="middle">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:divider="?android:dividerHorizontal"
+    android:orientation="vertical"
+    android:showDividers="middle">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 xmlns:tools="http://schemas.android.com/tools"
-                 android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"
-                 tools:context="com.royclarkson.springagram.PhotoAddToGalleryFragment">
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context="com.royclarkson.springagram.PhotoAddToGalleryFragment">
 
         <ListView
             android:id="@android:id/list"
@@ -49,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/button_save"
-        android:onClick=""/>
+        android:onClick=""
+        android:text="@string/button_save"/>
 
 </LinearLayout>

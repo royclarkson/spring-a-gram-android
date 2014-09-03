@@ -15,40 +15,40 @@
   -->
 
 <LinearLayout
-    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dip"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="10dip">
 
     <TextView
+        android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginBottom="20dp"
         android:text="@string/title_add_gallery"
-        android:id="@+id/heading"
-        android:layout_marginBottom="20dp"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
+        android:id="@+id/title_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/title_description"
-        android:id="@+id/title_description"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         />
 
     <EditText
+        android:id="@+id/text_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_description"
         android:layout_marginTop="5dp"/>
 
     <Button
+        android:id="@+id/button_save"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_save"
-        android:id="@+id/button_save"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:text="@string/button_save"/>
 
 </LinearLayout>

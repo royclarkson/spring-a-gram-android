@@ -14,21 +14,22 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.royclarkson.springagram.HomeFragment"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    tools:context="com.royclarkson.springagram.HomeFragment">
 
     <TextView
+        android:id="@+id/home_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:textSize="36sp"
+        android:text="@string/app_name"
         android:textIsSelectable="false"
-        android:id="@+id/home_title"/>
+        android:textSize="36sp"/>
 
 </FrameLayout>
