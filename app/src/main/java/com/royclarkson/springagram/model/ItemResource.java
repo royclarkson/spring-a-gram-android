@@ -32,9 +32,9 @@ public class ItemResource extends ResourceSupport {
 
 	public static final String REL_GALLERY = "gallery";
 
-	private static final int THUMBNAIL_HEIGHT = 100;
+	private static final int THUMBNAIL_HEIGHT = 75;
 
-	private static final int THUMBNAIL_WIDTH = 100;
+	private static final int THUMBNAIL_WIDTH = 75;
 
 	private static final int IMAGE_HEIGHT = 400;
 
