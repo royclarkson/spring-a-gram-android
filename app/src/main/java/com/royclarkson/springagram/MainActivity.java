@@ -45,6 +45,7 @@ public class MainActivity extends Activity
 		PhotoListFragment.PhotoListFragmentListener,
 		PhotoDetailFragment.PhotoDetailFragmentListener,
 		PhotoAddFragment.PhotoAddFragmentListener,
+		PhotoAddToGalleryFragment.PhotoAddToGalleryFragmentListener,
 		GalleryListFragment.GalleryListFragmentListener,
 		GalleryAddFragment.GalleryAddFragmentListener,
 		GalleryPhotoListFragment.GalleryPhotoListFragmentListener {
@@ -252,6 +253,18 @@ public class MainActivity extends Activity
 		this.photos.remove(position);
 	}
 
+	@Override
+	public void onPhotoAddToGallerySelected(int position) {
+		ItemResource item = this.photos.get(position);
+		String itemGalleryUrl = item.getLink(ItemResource.REL_GALLERY).getHref();
+		PhotoAddToGalleryFragment photoAddToGalleryFragment = PhotoAddToGalleryFragment.newInstance(itemGalleryUrl);
+		FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction()
+				.add(R.id.container, photoAddToGalleryFragment)
+				.addToBackStack(null);
+		transaction.commit();
+	}
+
 
 	//***************************************
 	// PhotoDetailFragmentListener methods
@@ -267,12 +280,28 @@ public class MainActivity extends Activity
 	// PhotoDetailFragmentListener methods
 	//***************************************
 
+	@Override
 	public void onPhotoAddComplete() {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.popBackStack();
 		PhotoListFragment photoListFragment =
 				(PhotoListFragment) fragmentManager.findFragmentByTag(PhotoListFragment.TAG);
 		photoListFragment.fetchPhotoList();
+	}
+
+
+	//***************************************
+	// PhotoAddToGalleryFragmentListener methods
+	//***************************************
+
+	@Override
+	public List<GalleryResource> getGalleryList() {
+		return this.galleries;
+	}
+
+	@Override
+	public void onPhotoAddToGalleryComplete() {
+		getFragmentManager().popBackStack();
 	}
 
 

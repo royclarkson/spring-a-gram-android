@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Spring-a-Gram</string>
     <string name="title_section_home">Home</string>
     <string name="title_section_photos">Photos</string>
@@ -12,6 +11,7 @@
     <string name="action_add_gallery">Add Gallery</string>
     <string name="action_refresh_gallery_list">Refresh</string>
     <string name="action_delete">Delete</string>
+    <string name="action_add_to_gallery">Add to Gallery</string>
     <string name="title_add_gallery">Add New Gallery</string>
     <string name="title_description">Description:</string>
     <string name="button_save">Save</string>

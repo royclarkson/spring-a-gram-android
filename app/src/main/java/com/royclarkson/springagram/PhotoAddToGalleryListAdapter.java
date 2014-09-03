@@ -1,0 +1,72 @@
+/*
+ * Copyright 2014 Roy Clarkson
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.royclarkson.springagram;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.royclarkson.springagram.model.GalleryResource;
+
+import java.util.List;
+
+/**
+ * @author Roy Clarkson
+ */
+public class PhotoAddToGalleryListAdapter extends BaseAdapter {
+
+	private final List<GalleryResource> galleries;
+
+	private final LayoutInflater layoutInflater;
+
+	public PhotoAddToGalleryListAdapter(Context context, List<GalleryResource> galleries) {
+		this.layoutInflater = LayoutInflater.from(context);
+		this.galleries = galleries;
+	}
+
+	@Override
+	public int getCount() {
+		return this.galleries.size();
+	}
+
+	@Override
+	public GalleryResource getItem(int position) {
+		return this.galleries.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (convertView == null) {
+			convertView = this.layoutInflater.inflate(R.layout.gallery_selection_list_item, parent, false);
+		}
+
+		GalleryResource gallery = getItem(position);
+
+		TextView nameTextView = (TextView) convertView.findViewById(R.id.gallery_description);
+		nameTextView.setText(gallery.getDescription());
+
+		return convertView;
+	}
+
+}

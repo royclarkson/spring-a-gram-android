@@ -146,6 +146,9 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
+			case R.id.action_add_to_gallery:
+				addToGallery(info.position);
+				return true;
 			case R.id.action_delete:
 				deletePhoto(info.position);
 				return true;
@@ -181,7 +184,10 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 		public void onDeletePhotoByPosition(int position);
 
+		public void onPhotoAddToGallerySelected(int position);
+
 	}
+
 
 	//***************************************
 	// Private methods
@@ -205,6 +211,10 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 		new DeletePhotoTask().execute(itemResource.getLink(ItemResource.REL_SELF).getHref());
 		this.photoListFragmentListener.onDeletePhotoByPosition(position);
 		((PhotoListAdapter) listAdapter).notifyDataSetChanged();
+	}
+
+	private void addToGallery(int position) {
+		this.photoListFragmentListener.onPhotoAddToGallerySelected(position);
 	}
 
 
