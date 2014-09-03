@@ -21,7 +21,10 @@ import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -91,8 +94,9 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_photo, container, false);
-		listView = (AbsListView) view.findViewById(android.R.id.list);
-		listView.setOnItemClickListener(this);
+		this.listView = (AbsListView) view.findViewById(android.R.id.list);
+		this.listView.setOnItemClickListener(this);
+		registerForContextMenu(this.listView);
 		return view;
 	}
 
@@ -126,6 +130,25 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 		this.galleryPhotoListFragmentListener = null;
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = new MenuInflater(this.getActivity());
+		inflater.inflate(R.menu.gallery_photo_list_context_menu, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		switch (item.getItemId()) {
+			case R.id.action_remove_from_gallery:
+				removeFromGallery(info.position);
+				return true;
+			default:
+				return super.onContextItemSelected(item);
+		}
+	}
+
 
 	//***************************************
 	// OnItemClickListener methods
@@ -149,8 +172,16 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 
 		public void onDownloadGalleryPhotosComplete(List<ItemResource> photos);
 
+		public ItemResource getGalleryPhotoByPosition(int position);
+
+		public void onRemovePhotoFromGalleryByPosition(int position);
+
 	}
 
+
+	//***************************************
+	// Helper methods
+	//***************************************
 
 	public void fetchGalleryPhotoList() {
 		new DownloadGalleryPhotosTask().execute(this.galleryPhotosUrl);
@@ -163,6 +194,15 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 		}
 		listAdapter = new PhotoListAdapter(getActivity(), photos);
 		listView.setAdapter(listAdapter);
+	}
+
+	private void removeFromGallery(int position) {
+		if (null != this.galleryPhotoListFragmentListener) {
+			ItemResource itemResource = this.galleryPhotoListFragmentListener.getGalleryPhotoByPosition(position);
+			new RemoveGalleryPhotoTask().execute(itemResource.getLink(ItemResource.REL_GALLERY).getHref());
+			this.galleryPhotoListFragmentListener.onRemovePhotoFromGalleryByPosition(position);
+			((PhotoListAdapter) listAdapter).notifyDataSetChanged();
+		}
 	}
 
 
@@ -196,4 +236,25 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 
 	}
 
+	private class RemoveGalleryPhotoTask extends AsyncTask<String, Void, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			try {
+				final String url = params[0];
+				RestTemplate restTemplate = RestUtils.getInstance();
+				restTemplate.delete(url);
+				return true;
+			} catch (Exception e) {
+				Log.e(TAG, e.getMessage(), e);
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean success) {
+
+		}
+
+	}
 }

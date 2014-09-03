@@ -12,6 +12,7 @@
     <string name="action_refresh_gallery_list">Refresh</string>
     <string name="action_delete">Delete</string>
     <string name="action_add_to_gallery">Add to Gallery</string>
+    <string name="action_remove_from_gallery">Remove from Gallery</string>
     <string name="title_add_gallery">Add New Gallery</string>
     <string name="title_description">Description:</string>
     <string name="button_save">Save</string>

@@ -369,6 +369,15 @@ public class MainActivity extends Activity
 		transaction.commit();
 	}
 
+	@Override
+	public ItemResource getGalleryPhotoByPosition(int position) {
+		return this.photos.get(position);
+	}
+
+	@Override
+	public void onRemovePhotoFromGalleryByPosition(int position) {
+		this.photos.remove(position);
+	}
 
 
 	/**
