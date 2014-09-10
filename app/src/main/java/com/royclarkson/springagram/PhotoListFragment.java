@@ -38,6 +38,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -186,6 +187,8 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 		public void onPhotoAddToGallerySelected(int position);
 
+		public void onNetworkError(String message);
+
 	}
 
 
@@ -198,12 +201,14 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 	}
 
 	private void refreshPhotoList(Resources resources) {
-		List<ItemResource> photos = new ArrayList<ItemResource>(resources.getContent());
-		if (null != this.photoListFragmentListener) {
-			this.photoListFragmentListener.onDownloadPhotosComplete(photos);
+		if (resources != null) {
+			List<ItemResource> photos = new ArrayList<ItemResource>(resources.getContent());
+			if (null != this.photoListFragmentListener) {
+				this.photoListFragmentListener.onDownloadPhotosComplete(photos);
+			}
+			listAdapter = new PhotoListAdapter(getActivity(), photos);
+			listView.setAdapter(listAdapter);
 		}
-		listAdapter = new PhotoListAdapter(getActivity(), photos);
-		listView.setAdapter(listAdapter);
 	}
 
 	private void deletePhoto(int position) {
@@ -224,17 +229,20 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 	private class DownloadPhotosTask extends AsyncTask<String, Void, Resources> {
 
+		private Exception exception;
+
 		@Override
 		protected Resources doInBackground(String... params) {
 			try {
 				final String url = params[0];
+				ParameterizedTypeReference<Resources<ItemResource>> typeRef =
+						new ParameterizedTypeReference<Resources<ItemResource>>() { };
 				RestTemplate restTemplate = RestUtils.getInstance();
 				ResponseEntity<Resources<ItemResource>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
-						RestUtils.getRequestEntity(),
-						new ParameterizedTypeReference<Resources<ItemResource>>() {
-						});
+						RestUtils.getRequestEntity(), typeRef);
 				return responseEntity.getBody();
 			} catch (Exception e) {
+				this.exception = e;
 				Log.e(TAG, e.getMessage(), e);
 				return null;
 			}
@@ -242,29 +250,37 @@ public class PhotoListFragment extends Fragment implements AbsListView.OnItemCli
 
 		@Override
 		protected void onPostExecute(Resources resources) {
-			refreshPhotoList(resources);
+			if (this.exception != null && this.exception instanceof ResourceAccessException) {
+				photoListFragmentListener.onNetworkError(this.exception.getMessage());
+			} else {
+				refreshPhotoList(resources);
+			}
 		}
 
 	}
 
-	private class DeletePhotoTask extends AsyncTask<String, Void, Boolean> {
+	private class DeletePhotoTask extends AsyncTask<String, Void, Void> {
+
+		Exception exception;
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
 			try {
 				final String url = params[0];
 				RestTemplate restTemplate = RestUtils.getInstance();
 				restTemplate.delete(url);
-				return true;
 			} catch (Exception e) {
+				this.exception = e;
 				Log.e(TAG, e.getMessage(), e);
-				return false;
 			}
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(Boolean success) {
-
+		protected void onPostExecute(Void v) {
+			if (this.exception != null && this.exception instanceof ResourceAccessException) {
+				photoListFragmentListener.onNetworkError(this.exception.getMessage());
+			}
 		}
 
 	}

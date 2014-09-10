@@ -35,6 +35,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -153,12 +154,14 @@ public class GalleryListFragment extends ListFragment {
 	}
 
 	private void refreshGalleryList(Resources resources) {
-		List<GalleryResource> galleries = new ArrayList<GalleryResource>(resources.getContent());
-		if (null != this.galleryListFragmentListener) {
-			this.galleryListFragmentListener.onDownloadGalleriesComplete(galleries);
+		if (resources != null) {
+			List<GalleryResource> galleries = new ArrayList<GalleryResource>(resources.getContent());
+			if (null != this.galleryListFragmentListener) {
+				this.galleryListFragmentListener.onDownloadGalleriesComplete(galleries);
+			}
+			ListAdapter listAdapter = new GalleryListAdapter(getActivity(), galleries);
+			setListAdapter(listAdapter);
 		}
-		ListAdapter listAdapter = new GalleryListAdapter(getActivity(), galleries);
-		setListAdapter(listAdapter);
 	}
 
 	private void deleteGallery(int position) {
@@ -183,6 +186,8 @@ public class GalleryListFragment extends ListFragment {
 
 		public void onDeleteGalleryByPosition(int position);
 
+		public void onNetworkError(String message);
+
 	}
 
 
@@ -191,6 +196,8 @@ public class GalleryListFragment extends ListFragment {
 	// ***************************************
 
 	private class DownloadGalleriesTask extends AsyncTask<String, Void, Resources> {
+
+		Exception exception;
 
 		@Override
 		protected Resources doInBackground(String... params) {
@@ -203,6 +210,7 @@ public class GalleryListFragment extends ListFragment {
 						});
 				return responseEntity.getBody();
 			} catch (Exception e) {
+				this.exception = e;
 				Log.e(TAG, e.getMessage(), e);
 				return null;
 			}
@@ -210,29 +218,37 @@ public class GalleryListFragment extends ListFragment {
 
 		@Override
 		protected void onPostExecute(Resources resources) {
-			refreshGalleryList(resources);
+			if (this.exception != null && this.exception instanceof ResourceAccessException) {
+				galleryListFragmentListener.onNetworkError(this.exception.getMessage());
+			} else {
+				refreshGalleryList(resources);
+			}
 		}
 
 	}
 
-	private class DeleteGalleryTask extends AsyncTask<String, Void, Boolean> {
+	private class DeleteGalleryTask extends AsyncTask<String, Void, Void> {
+
+		private Exception exception;
 
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Void doInBackground(String... params) {
 			try {
 				final String url = params[0];
 				RestTemplate restTemplate = RestUtils.getInstance();
 				restTemplate.delete(url);
-				return true;
 			} catch (Exception e) {
+				this.exception = e;
 				Log.e(TAG, e.getMessage(), e);
-				return false;
 			}
+			return null;
 		}
 
 		@Override
-		protected void onPostExecute(Boolean success) {
-
+		protected void onPostExecute(Void v) {
+			if (this.exception != null && this.exception instanceof ResourceAccessException) {
+				galleryListFragmentListener.onNetworkError(this.exception.getMessage());
+			}
 		}
 
 	}

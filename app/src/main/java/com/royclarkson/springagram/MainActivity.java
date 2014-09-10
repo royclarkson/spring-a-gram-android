@@ -23,8 +23,10 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.royclarkson.springagram.model.ApiResource;
 import com.royclarkson.springagram.model.GalleryResource;
@@ -169,7 +171,7 @@ public class MainActivity extends Activity
 	@Override
 	public void onNavigationDrawerItemSelected(int position) {
 		this.menuPosition = position;
-		String url;
+		String url = null;
 		Fragment fragment = null;
 		String tag = null;
 		switch (position) {
@@ -179,21 +181,28 @@ public class MainActivity extends Activity
 				tag = HomeFragment.TAG;
 				break;
 			case 1:
-				url = this.apiResource.getLink(ApiResource.REL_ITEMS).getHref();
+				if (this.apiResource != null) {
+					url = this.apiResource.getLink(ApiResource.REL_ITEMS).getHref();
+				}
 				fragment = PhotoListFragment.newInstance(url);
 				tag = PhotoListFragment.TAG;
 				break;
 			case 2:
-				url = this.apiResource.getLink(ApiResource.REL_GALLERIES).getHref();
+				if (this.apiResource != null) {
+					url = this.apiResource.getLink(ApiResource.REL_GALLERIES).getHref();
+				}
 				fragment = GalleryListFragment.newInstance(url);
 				tag = GalleryListFragment.TAG;
 				break;
 		}
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.container, fragment, tag)
-				.commit();
+		if (fragment != null) {
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.popBackStack();
+			fragmentManager.beginTransaction()
+					.replace(R.id.container, fragment, tag)
+					.commit();
+		}
 	}
 
 
@@ -205,6 +214,12 @@ public class MainActivity extends Activity
 	@Override
 	public void onResourceDownloadComplete(ApiResource apiResource) {
 		this.apiResource = apiResource;
+	}
+
+	public void onNetworkError(String message) {
+		Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
 	}
 
 

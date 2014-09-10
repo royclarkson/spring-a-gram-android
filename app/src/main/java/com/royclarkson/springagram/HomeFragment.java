@@ -29,6 +29,7 @@ import com.royclarkson.springagram.model.ApiResource;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -109,6 +110,8 @@ public class HomeFragment extends Fragment {
 
 		public void onResourceDownloadComplete(ApiResource resource);
 
+		public void onNetworkError(String message);
+
 	}
 
 
@@ -117,6 +120,8 @@ public class HomeFragment extends Fragment {
 	// ***************************************
 
 	private class DownloadRootResourceTask extends AsyncTask<String, Void, ApiResource> {
+
+		Exception exception;
 
 		@Override
 		protected ApiResource doInBackground(String... params) {
@@ -127,6 +132,7 @@ public class HomeFragment extends Fragment {
 						RestUtils.getRequestEntity(), ApiResource.class);
 				return responseEntity.getBody();
 			} catch (Exception e) {
+				this.exception = e;
 				Log.e(TAG, e.getMessage(), e);
 			}
 
@@ -136,7 +142,11 @@ public class HomeFragment extends Fragment {
 		@Override
 		protected void onPostExecute(ApiResource apiResource) {
 			if (homeFragmentListener != null) {
-				homeFragmentListener.onResourceDownloadComplete(apiResource);
+				if (this.exception != null && this.exception instanceof ResourceAccessException) {
+					homeFragmentListener.onNetworkError(this.exception.getMessage());
+				} else {
+					homeFragmentListener.onResourceDownloadComplete(apiResource);
+				}
 			}
 		}
 
