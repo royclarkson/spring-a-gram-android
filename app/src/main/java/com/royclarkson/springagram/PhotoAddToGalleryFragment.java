@@ -100,6 +100,12 @@ public class PhotoAddToGalleryFragment extends Fragment implements AbsListView.O
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {

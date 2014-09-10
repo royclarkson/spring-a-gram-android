@@ -74,6 +74,12 @@ public class PhotoDetailFragment extends Fragment {
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {

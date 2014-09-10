@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.royclarkson.springagram.model.GalleryResource;
 import com.royclarkson.springagram.model.ItemResource;
@@ -100,17 +99,10 @@ public class GalleryPhotoListFragment extends Fragment implements AbsListView.On
 		return view;
 	}
 
-	/**
-	 * The default content for this Fragment has a TextView that is shown when
-	 * the list is empty. If you would like to change the text, call this method
-	 * to supply the text it should use.
-	 */
-	public void setEmptyText(CharSequence emptyText) {
-		View emptyView = listView.getEmptyView();
-
-		if (emptyText instanceof TextView) {
-			((TextView) emptyView).setText(emptyText);
-		}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
 	}
 
 	@Override
